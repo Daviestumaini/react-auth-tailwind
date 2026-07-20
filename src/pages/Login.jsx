@@ -1,33 +1,71 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import AuthCard from '../components/AuthCard'
+import AuthIntro from '../components/AuthIntro'
 import FormInput from '../components/FormInput'
 import Button from '../components/Button'
+import AuthFooter from '../components/AuthFooter'
+import { loginUser } from '../utils/auth'
 
 export default function Login() {
+  const [form, setForm] = useState({ identifier: '', password: '' })
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setError('')
+
+    const result = loginUser(form.identifier, form.password)
+    if (!result.success) {
+      setError(result.error)
+      return
+    }
+
+    navigate('/dashboard')
+  }
+
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-center rounded-3xl border border-slate-800 bg-slate-900/80 p-8 shadow-2xl shadow-cyan-950/30 lg:flex-row lg:gap-10 lg:p-12">
-        <div className="max-w-md space-y-4 text-center lg:text-left">
-          <p className="text-sm uppercase tracking-[0.35em] text-cyan-400">Welcome back</p>
-          <h1 className="text-3xl font-semibold sm:text-4xl">Sign in to your account</h1>
-          <p className="text-slate-300">Access your workspace and keep your authentication flow moving.</p>
-        </div>
+    <AuthCard className="mx-auto flex max-w-6xl flex-col items-center justify-center lg:flex-row lg:gap-10">
+      <AuthIntro
+        eyebrow="Welcome back"
+        heading="Sign in to your account"
+        description="Access your workspace and keep your authentication flow moving."
+      />
 
-        <form className="mt-8 w-full max-w-md space-y-4 rounded-2xl border border-slate-800 bg-slate-950/70 p-6">
-          <p className="text-red-500"></p>
+      <form
+        onSubmit={handleSubmit}
+        className="mt-8 w-full max-w-md space-y-4 rounded-2xl border border-slate-800 bg-slate-950/70 p-6"
+      >
+        <p className="text-red-500">{error}</p>
 
-          <FormInput id="email" label="Email" type="email" required placeholder="name@example.com" />
-          <FormInput id="password" label="Password" type="password" required placeholder="••••••••" />
+        <FormInput
+          id="identifier"
+          label="Email or Username"
+          type="text"
+          required
+          value={form.identifier}
+          onChange={handleChange}
+          placeholder="name@example.com"
+        />
+        <FormInput
+          id="password"
+          label="Password"
+          type="password"
+          required
+          value={form.password}
+          onChange={handleChange}
+          placeholder="••••••••"
+        />
 
-          <Button type="submit" className="w-full">Login</Button>
+        <Button type="submit" className="w-full">Login</Button>
 
-          <p className="text-center text-sm text-slate-400">
-            New here?{' '}
-            <Link to="/register" className="font-medium text-cyan-400 hover:text-cyan-300">
-              Create an account
-            </Link>
-          </p>
-        </form>
-      </div>
-    </div>
+        <AuthFooter text="New here?" linkText="Create an account" linkTo="/register" />
+      </form>
+    </AuthCard>
   )
 }
