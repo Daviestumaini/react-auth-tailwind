@@ -1,12 +1,3 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import AuthCard from '../components/AuthCard'
-import AuthIntro from '../components/AuthIntro'
-import FormInput from '../components/FormInput'
-import Button from '../components/Button'
-import AuthFooter from '../components/AuthFooter'
-import { loginUser } from '../utils/auth'
-
 export default function Login() {
   const [form, setForm] = useState({ identifier: '', password: '' })
   const [error, setError] = useState('')
@@ -30,18 +21,16 @@ export default function Login() {
   }
 
   return (
-    <AuthCard className="mx-auto flex max-w-6xl flex-col items-center justify-center lg:flex-row lg:gap-10">
+    <AuthCard>
       <AuthIntro
         eyebrow="Welcome back"
         heading="Sign in to your account"
         description="Access your workspace and keep your authentication flow moving."
+        align="text-center"
       />
 
-      <form
-        onSubmit={handleSubmit}
-        className="mt-8 w-full max-w-md space-y-4 rounded-2xl border border-slate-800 bg-slate-950/70 p-6"
-      >
-        <p className="text-red-500">{error}</p>
+      <form onSubmit={handleSubmit} className="mt-6 w-full space-y-4">
+        {error && <p className="text-red-500 text-sm">{error}</p>}
 
         <FormInput
           id="identifier"

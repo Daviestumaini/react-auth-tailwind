@@ -19,3 +19,4 @@ export default function FormSelect({ id, label, options, ...props }) {
     </div>
   )
 }
+// The code inside a function will NEVER be executed UNTIL the function is CALLED/INVOKED.
