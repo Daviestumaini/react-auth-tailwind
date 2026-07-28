@@ -20,7 +20,7 @@ export default function Landing() {
           </p>
           <div className="flex flex-wrap gap-4">
             <Link to="/register"><Button>Create account</Button></Link>
-            <Link to="/login"><Button variant="outline">Login</Button></Link>
+            <Link to="/Login"><Button variant="outline">Login</Button></Link>
           </div>
         </div>
 
