@@ -20,4 +20,4 @@ export default function Dashboard() {
     </div>
   )
 }
-export {Dashboard};
+export default Dashboard;

@@ -32,3 +32,5 @@ export default function Login() {
 
   // ...rest unchanged
 }
+
+export default Login;

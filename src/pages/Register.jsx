@@ -43,3 +43,4 @@ export default function Register() {
 
   // ...rest unchanged
 }
+export default Register;
