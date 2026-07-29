@@ -70,3 +70,5 @@ export default function Login() {
     </AuthCard>
   )
 }
+
+export {Login};
