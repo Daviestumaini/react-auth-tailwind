@@ -7,6 +7,7 @@ import AuthCard from "../components/AuthCard"
 import AuthFooter from "../components/AuthFooter"
 import { loginUser } from "../utils/auth"
 import { loginForm } from "../components/LoginForm"
+import AuthIntro from "../components/AuthIntro"
 
 export default function Login() {
   const [form, setForm] = useState({ identifier: '', password: '' })
