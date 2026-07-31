@@ -1,38 +1,46 @@
-const API_BASE = "https://charity-minds-backend.onrender.com/api/v1/";
 
 export async function registerUser(formData) {
   try {
-    const response = await fetch(`${API_BASE}/register`, {
+    const response = await fetch("https://charity-minds-backend.onrender.com/api/v1/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
     const resData = await response.json();
 
-    if (!response.ok || !resData.success) {
-      return { success: false, error: resData.message || "Failed to register. Please try again." };
+     if (res.ok) {
+        alert("Registration successful!");
+        navigate("/login");
+        console.log("Response status:", res.status);
+      } else {
+        const errorData = await res.json();
+        alert(errorData.message || "Registration failed!");
+      }
+       } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Please try again.");
     }
-    return { success: true };
-  } catch (error) {
-    return { success: false, error: error.message || "Something went wrong." };
-  }
-}
+  };
+
 
 export async function loginUser(identifier, password) {
   try {
-    const response = await fetch(`${API_BASE}/login`, {
+    const response = await fetch("https://charity-minds-backend.onrender.com/api/v1/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier, password }),
     });
     const resData = await response.json();
-
-    if (!response.ok || !resData.success) {
-      return { success: false, error: resData.message || "Failed to login. Please try again." };
+if (response.ok) {
+      alert("Login successful!");
+      navigate("/dashboard");
+      console.log("Response status:", response.status);
+    } else {
+      const errorData = await response.json();
+      alert(errorData.message || "Login failed!");
     }
-    localStorage.setItem("auth_logged_in", true);
-    return { success: true };
-  } catch (error) {
-    return { success: false, error: error.message || "Something went wrong." };
-  }
-}
+   } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Please try again.");
+    } 
+  };
