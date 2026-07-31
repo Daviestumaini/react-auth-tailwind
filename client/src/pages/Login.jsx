@@ -10,6 +10,7 @@ import { loginUser } from "../utils/auth"
 export default function Login() {
   const [form, setForm] = useState({ identifier: '', password: '' })
   const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -20,7 +21,10 @@ export default function Login() {
     e.preventDefault()
     setError('')
 
+    setSubmitting(true)
     const result = await loginUser(form.identifier, form.password)
+    setSubmitting(false)
+
     if (!result.success) {
       setError(result.error)
       return
@@ -62,7 +66,9 @@ export default function Login() {
           placeholder="••••••••"
         />
 
-        <Button type="submit" className="w-full">Login</Button>
+        <Button type="submit" className="w-full" disabled={submitting}>
+          {submitting ? 'Logging in...' : 'Login'}
+        </Button>
 
         <AuthFooter text="New here?" linkText="Create an account" linkTo="/register" />
       </form>

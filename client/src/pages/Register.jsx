@@ -23,6 +23,7 @@ const initialForm = {
 export default function Register() {
   const [form, setForm] = useState(initialForm)
   const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -38,8 +39,11 @@ export default function Register() {
       return
     }
 
+    setSubmitting(true)
     const { confirmPassword, ...payload } = form
     const result = await registerUser(payload)
+    setSubmitting(false)
+
     if (!result.success) {
       setError(result.error)
       return
@@ -93,7 +97,9 @@ export default function Register() {
         </div>
 
         <div className="md:col-span-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Button type="submit">Create account</Button>
+          <Button type="submit" disabled={submitting}>
+            {submitting ? 'Creating account...' : 'Create account'}
+          </Button>
           <AuthFooter text="Already a member?" linkText="Login here" linkTo="/login" />
         </div>
       </form>
