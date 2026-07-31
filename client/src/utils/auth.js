@@ -1,4 +1,4 @@
-const API_BASE = "https://charity-minds-backend.onrender.com/api/v1/auth";
+const API_BASE = "https://charity-minds-backend.onrender.com/api/v1/users";
 
 export async function registerUser(formData) {
   try {
