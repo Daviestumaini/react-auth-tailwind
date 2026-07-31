@@ -1,4 +1,3 @@
-
 export async function registerUser(formData) {
   try {
     const response = await fetch("https://charity-minds-backend.onrender.com/api/v1/auth/register", {
@@ -8,20 +7,16 @@ export async function registerUser(formData) {
     });
     const resData = await response.json();
 
-     if (res.ok) {
-        alert("Registration successful!");
-        navigate("/login");
-        console.log("Response status:", res.status);
-      } else {
-        const errorData = await res.json();
-        alert(errorData.message || "Registration failed!");
-      }
-       } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Please try again.");
+    if (!response.ok) {
+      return { success: false, error: resData.message || "Registration failed!" };
     }
-  };
 
+    return { success: true };
+  } catch (err) {
+    console.error(err);
+    return { success: false, error: "Something went wrong. Please try again." };
+  }
+}
 
 export async function loginUser(identifier, password) {
   try {
@@ -31,16 +26,15 @@ export async function loginUser(identifier, password) {
       body: JSON.stringify({ identifier, password }),
     });
     const resData = await response.json();
-if (response.ok) {
-      alert("Login successful!");
-      navigate("/dashboard");
-      console.log("Response status:", response.status);
-    } else {
-      const errorData = await response.json();
-      alert(errorData.message || "Login failed!");
+
+    if (!response.ok) {
+      return { success: false, error: resData.message || "Login failed!" };
     }
-   } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Please try again.");
-    } 
-  };
+
+    localStorage.setItem("auth_logged_in", true);
+    return { success: true };
+  } catch (err) {
+    console.error(err);
+    return { success: false, error: "Something went wrong. Please try again." };
+  }
+}
