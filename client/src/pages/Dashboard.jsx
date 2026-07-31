@@ -3,7 +3,7 @@ import DashboardHeader from '../components/DashboardHeader'
 import StatCard from '../components/StatCard'
 import UserTable from '../components/UserTable'
 
-const USERS_API = 'http://localhost:5001/api/users'
+const USERS_API = 'http://localhost:5500/api/users'
 
 export default function Dashboard() {
   const [users, setUsers] = useState([])
@@ -31,6 +31,13 @@ export default function Dashboard() {
     fetchUsers()
   }, [])
 
+  const thisMonthCount = users.filter((u) => {
+    if (!u.createdAt) return false
+    const created = new Date(u.createdAt)
+    const now = new Date()
+    return created.getMonth() === now.getMonth() && created.getFullYear() === now.getFullYear()
+  }).length
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-6 lg:px-8">
@@ -38,10 +45,7 @@ export default function Dashboard() {
 
         <section className="mt-8 grid gap-6 md:grid-cols-2">
           <StatCard label="Total Users" value={loading ? '...' : users.length} />
-          <StatCard
-            label="Users this month"
-            value={loading ? '...' : users.filter(u => u.joinedAt?.startsWith('2026-07')).length}
-          />
+          <StatCard label="Users this month" value={loading ? '...' : thisMonthCount} />
         </section>
 
         {error && <p className="mt-6 text-red-500">{error}</p>}
