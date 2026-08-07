@@ -1,6 +1,8 @@
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5500/api/v1";
+
 export async function registerUser(formData) {
   try {
-    const response = await fetch("https://charity-minds-backend.onrender.com/api/v1/auth/register", {
+    const response = await fetch(`${API_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -11,7 +13,7 @@ export async function registerUser(formData) {
       return { success: false, error: resData.message || "Registration failed!" };
     }
 
-    return { success: true };
+    return { success: true, user: resData.user };
   } catch (err) {
     console.error(err);
     return { success: false, error: "Something went wrong. Please try again." };
@@ -20,7 +22,7 @@ export async function registerUser(formData) {
 
 export async function loginUser(identifier, password) {
   try {
-    const response = await fetch("https://charity-minds-backend.onrender.com/api/v1/auth/login", {
+    const response = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier, password }),
@@ -31,8 +33,9 @@ export async function loginUser(identifier, password) {
       return { success: false, error: resData.message || "Login failed!" };
     }
 
-    localStorage.setItem("auth_logged_in", true);
-    return { success: true };
+    localStorage.setItem("auth_logged_in", "true");
+    localStorage.setItem("auth_user", JSON.stringify(resData.user));
+    return { success: true, user: resData.user };
   } catch (err) {
     console.error(err);
     return { success: false, error: "Something went wrong. Please try again." };

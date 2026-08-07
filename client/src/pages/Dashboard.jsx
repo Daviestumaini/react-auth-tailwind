@@ -3,7 +3,7 @@ import DashboardHeader from '../components/DashboardHeader'
 import StatCard from '../components/StatCard'
 import UserTable from '../components/UserTable'
 
-const USERS_API = 'http://localhost:5500/api/users'
+const USERS_API = 'http://localhost:5500/api/v1/users'
 
 export default function Dashboard() {
   const [users, setUsers] = useState([])

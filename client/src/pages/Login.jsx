@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import FormInput from "../components/FormInput"
 import Button from "../components/Button"
@@ -7,11 +7,19 @@ import AuthFooter from "../components/AuthFooter"
 import AuthIntro from "../components/AuthIntro"
 import { loginUser } from "../utils/auth"
 
+
 export default function Login() {
   const [form, setForm] = useState({ identifier: '', password: '' })
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("auth_logged_in") === "true"
+    if (isLoggedIn) {
+      navigate('/dashboard')
+    }
+  }, [navigate])
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })

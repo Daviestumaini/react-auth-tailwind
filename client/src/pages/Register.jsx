@@ -79,8 +79,8 @@ export default function Register() {
           onChange={handleChange}
           options={[
             { value: '', label: 'Select gender' },
-            { value: 'female', label: 'Female' },
-            { value: 'male', label: 'Male' },
+            { value: 'Female', label: 'Female' },
+            { value: 'Male', label: 'Male' },
           ]}
         />
 
