@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Button from '../components/Button'
 
@@ -11,6 +11,10 @@ export default function Landing() {
       navigate('/dashboard', { replace: true })
     }
   }, [navigate])
+
+  const handleNavigate = (path) => {
+    navigate(path)
+  }
 
   return (
     <main className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-8 lg:px-8">
@@ -28,8 +32,8 @@ export default function Landing() {
             Create an account, sign in securely, and manage users from one elegant dashboard.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link to="/register"><Button>Create account</Button></Link>
-            <Link to="/login"><Button variant="outline">Login</Button></Link>
+            <Button onClick={() => handleNavigate('/register')}>Create account</Button>
+            <Button variant="outline" onClick={() => handleNavigate('/login')}>Login</Button>
           </div>
         </div>
 

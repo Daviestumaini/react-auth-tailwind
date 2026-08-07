@@ -1,5 +1,4 @@
 const DEPLOYED_API_URL = "https://charity-minds-backend.onrender.com/api/v1";
-const LOCAL_API_URL = "http://localhost:5500/api/v1";
 const API_URL = import.meta.env.VITE_API_URL || DEPLOYED_API_URL;
 
 export async function registerUser(formData) {
@@ -13,16 +12,6 @@ export async function registerUser(formData) {
 
     if (!response.ok) {
       return { success: false, error: resData.message || "Registration failed!" };
-    }
-
-    try {
-      await fetch(`${LOCAL_API_URL}/users`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, ...resData.user }),
-      });
-    } catch (syncError) {
-      console.warn("Local users sync skipped", syncError);
     }
 
     return { success: true, user: resData.user };
