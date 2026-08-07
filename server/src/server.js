@@ -17,6 +17,12 @@ const allowedOrigins = [
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "production" ? process.env.FRONTEND_URL : "*",
+  }),
+);
 app.use("/api/v1", v1Router);
 app.get("/health", (_req, res) => res.json({ success: true, message: "Server is healthy" }));
 
