@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthCard from '../components/AuthCard'
 import AuthIntro from '../components/AuthIntro'
@@ -26,6 +26,12 @@ export default function Register() {
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if (localStorage.getItem('auth_logged_in') === 'true') {
+      navigate('/dashboard', { replace: true })
+    }
+  }, [navigate])
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
@@ -49,7 +55,7 @@ export default function Register() {
       return
     }
 
-    navigate('/login')
+    navigate('/login', { state: { successMessage: 'Account created successfully. Please sign in.' }, replace: true })
   }
 
   return (

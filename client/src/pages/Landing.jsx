@@ -1,8 +1,17 @@
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Button from '../components/Button'
 
 export default function Landing() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (localStorage.getItem('auth_logged_in') === 'true') {
+      navigate('/dashboard', { replace: true })
+    }
+  }, [navigate])
+
   return (
     <main className="mx-auto flex min-h-screen max-w-7xl flex-col px-6 py-8 lg:px-8">
       <Header />

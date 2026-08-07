@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import FormInput from "../components/FormInput"
 import Button from "../components/Button"
 import AuthCard from "../components/AuthCard"
@@ -11,15 +11,23 @@ import { loginUser } from "../utils/auth"
 export default function Login() {
   const [form, setForm] = useState({ identifier: '', password: '' })
   const [error, setError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("auth_logged_in") === "true"
     if (isLoggedIn) {
-      navigate('/dashboard')
+      navigate('/dashboard', { replace: true })
     }
   }, [navigate])
+
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      setSuccessMessage(location.state.successMessage)
+    }
+  }, [location.state])
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -38,7 +46,7 @@ export default function Login() {
       return
     }
 
-    navigate('/dashboard')
+    navigate('/dashboard', { replace: true })
   }
 
   return (
@@ -53,7 +61,8 @@ export default function Login() {
         onSubmit={handleSubmit}
         className="mt-8 w-full max-w-md space-y-4 rounded-2xl border border-slate-800 bg-slate-950/70 p-6"
       >
-        <p className="text-red-500">{error}</p>
+        {error && <p className="text-red-500">{error}</p>}
+        {successMessage && <p className="text-cyan-400">{successMessage}</p>}
 
         <FormInput
           id="identifier"

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import DashboardHeader from '../components/DashboardHeader'
 import StatCard from '../components/StatCard'
 import UserTable from '../components/UserTable'
@@ -9,8 +10,14 @@ export default function Dashboard() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
+    if (localStorage.getItem('auth_logged_in') !== 'true') {
+      navigate('/login', { replace: true })
+      return
+    }
+
     const fetchUsers = async () => {
       try {
         const response = await fetch(USERS_API)
@@ -29,7 +36,7 @@ export default function Dashboard() {
     }
 
     fetchUsers()
-  }, [])
+  }, [navigate])
 
   const thisMonthCount = users.filter((u) => {
     if (!u.createdAt) return false
